@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import React, { forwardRef, useCallback, useState } from "react";
-import zenginCode from "zengin-code";
+// import zenginCode from "zengin-code";
 
 import { Dialog } from "../../../../components/layouts/Dialog";
 import { Spacer } from "../../../../components/layouts/Spacer";
@@ -11,6 +11,15 @@ import { Space } from "../../../../styles/variables";
 
 const CANCEL = "cancel";
 const CHARGE = "charge";
+
+const fetchZenginCode = async () => {
+  const res = await fetch("https://zengin-code.github.io/api/banks.json");
+  return await res.json();
+}
+
+const findBank = (bankList, bankCode) => {
+  return bankList[bankCode];
+}
 
 /**
  * @typedef Props
@@ -66,12 +75,9 @@ export const ChargeDialog = forwardRef(({ onComplete }, ref) => {
     },
     [charge, bankCode, branchCode, accountNo, amount, onComplete, clearForm],
   );
-
-  const bankList = Object.entries(zenginCode).map(([code, { name }]) => ({
-    code,
-    name,
-  }));
-  const bank = zenginCode[bankCode];
+  
+  const bankList = Array.from(fetchZenginCode());
+  const bank = findBank(bankList, bankCode);
   const branch = bank?.branches[branchCode];
 
   return (
