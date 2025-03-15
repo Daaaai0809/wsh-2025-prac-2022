@@ -19,7 +19,8 @@
     "lint:eslint:fix": "eslint --ext '.mjs,.js,.jsx' --fix .",
     "lint:stylelint": "stylelint --ignore-path .gitignore './**/*.css' './**/*.jsx'",
     "lint:stylelint:fix": "stylelint --ignore-path .gitignore --fix './**/*.css' './**/*.jsx'",
-    "init:seeds": "ts-node-transpile-only scripts/init.js"
+    "init:seeds": "ts-node-transpile-only scripts/init.js",
+    "build:analyze": "webpack --profile --json > stats.json && webpack-bundle-analyzer stats.json"
   },
   "devDependencies": {
     "@babel/core": "^7.16.7",
@@ -87,6 +88,7 @@
     "styled-components": "^5.3.3",
     "typeorm": "^0.2.44",
     "uuid": "^8.3.2",
+    "webpack-bundle-analyzer": "^4.10.2",
     "zengin-code": "^1.0.0-p20220130"
   },
   "engines": {
