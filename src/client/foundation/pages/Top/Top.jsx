@@ -1,4 +1,4 @@
-import _ from "lodash";
+// import _ from "lodash";
 import moment from "moment-timezone";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -30,11 +30,20 @@ function useTodayRacesWithAnimation(races) {
   const timer = useRef(null);
 
   useEffect(() => {
-    const isRacesUpdate =
-      _.difference(
-        races.map((e) => e.id),
-        prevRaces.current.map((e) => e.id),
-      ).length !== 0;
+    // const isRacesUpdate =
+    //   _.difference(
+    //     races.map((e) => e.id),
+    //     prevRaces.current.map((e) => e.id),
+    //   ).length !== 0;
+
+    // Lodash を使わない実装例
+    const newIds = races.map((e) => e.id);
+    const oldIds = prevRaces.current.map((e) => e.id);
+
+    // newIds にあって oldIds にないものを抽出
+    const difference = newIds.filter((id) => !oldIds.includes(id));
+
+    const isRacesUpdate = difference.length !== 0;
 
     prevRaces.current = races;
     setIsRacesUpdate(isRacesUpdate);
@@ -62,7 +71,8 @@ function useTodayRacesWithAnimation(races) {
       }
 
       numberOfRacesToShow.current++;
-      setRacesToShow(_.slice(races, 0, numberOfRacesToShow.current));
+      // setRacesToShow(_.slice(races, 0, numberOfRacesToShow.current));
+      setRacesToShow(races.slice(0, numberOfRacesToShow.current));
     }, 100);
   }, [isRacesUpdate, races]);
 
